@@ -1,0 +1,7 @@
+$kind: http-request
+url: http://localhost:3000/api/notes?page=1&limit=2
+method: GET
+queryParams:
+  page: "1"
+  limit: "2"
+order: 4000

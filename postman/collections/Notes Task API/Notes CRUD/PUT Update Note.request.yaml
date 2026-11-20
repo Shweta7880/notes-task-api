@@ -1,0 +1,15 @@
+$kind: http-request
+url: http://localhost:3000/api/notes/6afdc5eb9227e3c9e592a654
+method: PUT
+body:
+  type: json
+  content: "{\r
+
+    \    \"title\": \"Study Java Updated\",\r
+
+    \    \"content\": \"Practice Java collections and DSA\",\r
+
+    \    \"completed\": true\r
+
+    }"
+order: 9000

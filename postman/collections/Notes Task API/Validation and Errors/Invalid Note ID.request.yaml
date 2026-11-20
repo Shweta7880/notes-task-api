@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:3000/api/notes/invalid123
+method: GET
+order: 5000

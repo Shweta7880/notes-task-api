@@ -1,0 +1,6 @@
+$kind: http-request
+url: http://localhost:3000/api/notes?search=Java
+method: GET
+queryParams:
+  search: Java
+order: 4000

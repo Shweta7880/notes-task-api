@@ -1,0 +1,2 @@
+$kind: collection
+description: StartFragment`A RESTful Notes API built using Node.js, Express.js, MongoDB and Mongoose. Supports CRUD operations, search, filtering, sorting, pagination and input validation.`EndFragment

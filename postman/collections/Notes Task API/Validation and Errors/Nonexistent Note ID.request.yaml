@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:3000/api/notes/507f1f77bcf86cd799439011
+method: GET
+order: 6000

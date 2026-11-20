@@ -1,0 +1,15 @@
+$kind: http-request
+url: http://localhost:3000/api/notes
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"title\": \"Test Postman Collection\",\r
+
+    \    \"content\": \"Testing saved API requests\",\r
+
+    \    \"completed\": false\r
+
+    }"
+order: 8000

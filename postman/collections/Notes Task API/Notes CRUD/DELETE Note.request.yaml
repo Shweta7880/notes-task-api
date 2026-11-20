@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:3000/api/notes/6afdc5eb9227e3c9e592a654
+method: DELETE
+order: 10000
