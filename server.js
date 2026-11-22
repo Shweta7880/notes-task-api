@@ -48,6 +48,11 @@ app.get("/api/notes", async (req, res) => {
         const limit = parseInt(req.query.limit) || 5;
 
         const skip = (page - 1) * limit;
+        if (limit > 100) {
+            return res.status(400).json({
+                message: "Limit cannot exceed 100."
+            });
+        }
         if (req.query.search && req.query.search.length > 100) {
             return res.status(400).json({
                 message: "Search query cannot exceed 100 characters."
@@ -137,9 +142,19 @@ app.post("/api/notes", async (req, res) => {
     try {
         const { title, content, completed } = req.body;
 
-        if (!title || !content) {
+        if (
+            typeof title !== "string" ||
+            !title.trim() ||
+            typeof content !== "string" ||
+            !content.trim()
+        ) {
             return res.status(400).json({
                 message: "Title and content are required"
+            });
+        }
+        if (completed !== undefined && typeof completed !== "boolean") {
+            return res.status(400).json({
+                message: "Completed must be a boolean"
             });
         }
 
@@ -164,6 +179,20 @@ app.post("/api/notes", async (req, res) => {
 app.put("/api/notes/:id", async (req, res) => {
     try {
         const { title, content, completed } = req.body;
+        if (
+            (title !== undefined && (typeof title !== "string" || !title.trim())) ||
+            (content !== undefined && (typeof content !== "string" || !content.trim()))
+        ) {
+            return res.status(400).json({
+                message: "Title and content must be non-empty strings"
+            });
+        }
+
+        if (completed !== undefined && typeof completed !== "boolean") {
+            return res.status(400).json({
+                message: "Completed must be a boolean"
+            });
+        }
 
         const updatedNote = await Note.findByIdAndUpdate(
             req.params.id,
@@ -183,6 +212,12 @@ app.put("/api/notes/:id", async (req, res) => {
         });
 
     } catch (error) {
+        if (error.name === "CastError") {
+            return res.status(400).json({
+                message: "Invalid note ID"
+            });
+        }
+
         res.status(500).json({
             message: "Error updating note",
             error: error.message
@@ -205,6 +240,12 @@ app.delete("/api/notes/:id", async (req, res) => {
         });
 
     } catch (error) {
+        if (error.name === "CastError") {
+            return res.status(400).json({
+                message: "Invalid note ID"
+            });
+        }
+
         res.status(500).json({
             message: "Error deleting note",
             error: error.message
