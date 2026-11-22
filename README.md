@@ -1,11 +1,14 @@
-
 # Notes Task API
 
-A RESTful API built using Node.js, Express.js, and MongoDB to create, manage, search, filter, sort, and paginate notes.
+A RESTful Notes Management API built using **Node.js, Express.js, and MongoDB**. It allows users to create, retrieve, update, delete, search, filter, sort, and paginate notes.
 
-This project demonstrates backend development concepts, including CRUD operations, REST API design, input validation, error handling, and database integration.
+This project demonstrates backend development concepts, including CRUD operations, REST API design, input validation, error handling, database integration, and API testing.
 
+## Live Demo
 
+**Base URL:** https://notes-task-api-mfft.onrender.com
+
+**Example:** `https://notes-task-api-mfft.onrender.com/api/notes`
 
 ## Features
 
@@ -14,13 +17,12 @@ This project demonstrates backend development concepts, including CRUD operation
 - Retrieve a note by ID
 - Update existing notes
 - Delete notes
-- Search notes by title or content
+- Search notes by title or content (case-insensitive)
 - Filter notes by completion status
 - Sort notes by creation date (latest or oldest)
 - Pagination with page and limit parameters
 - Input validation and error handling
 - MongoDB database integration
-
 
 ## Technologies Used
 
@@ -29,15 +31,13 @@ This project demonstrates backend development concepts, including CRUD operation
 - **MongoDB** – NoSQL database
 - **Mongoose** – MongoDB object modeling tool
 - **Postman** – API testing
-- **IntelliJ IDEA** – Development environment
-
 
 ## Installation and Setup
 
 ### 1. Clone the repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/Shweta7880/notes-task-api
 ```
 
 ### 2. Navigate to the project directory
@@ -57,37 +57,41 @@ npm install
 Create a `.env` file in the project root directory and add:
 
 ```env
-MONGO_URI=your_mongodb_connection_string
+MONGO_URI=mongodb+srv://notesapi:shweta78.@notestaskcluster.61ddrwv.mongodb.net/
 PORT=3000
 ```
 
 Replace the MongoDB connection string with your own.
 
+**Important:** Never upload your `.env` file or database credentials to GitHub.
+
 ### 5. Start the server
 
 ```bash
-node server.js
+npm start
 ```
 
 The server will run at:
 
-```text
-http://localhost:3000
-```
+`http://localhost:3000`
 
 ## API Endpoints
 
-Base URL: `http://localhost:3000/api/notes`
+Base URL:
+
+`/api/notes`
 
 | Method | Endpoint | Description |
 |---|---|---|
-| POST | `/` | Create a new note |
-| GET | `/` | Retrieve all notes |
-| GET | `/:id` | Retrieve a note by ID |
-| PUT | `/:id` | Update a note |
-| DELETE | `/:id` | Delete a note |
+| POST | `/api/notes` | Create a new note |
+| GET | `/api/notes` | Retrieve all notes |
+| GET | `/api/notes/:id` | Retrieve a note by ID |
+| PUT | `/api/notes/:id` | Update an existing note |
+| DELETE | `/api/notes/:id` | Delete a note |
 
-### Example: Create a Note
+## Example Requests
+
+### 1. Create a Note
 
 **POST** `/api/notes`
 
@@ -100,6 +104,26 @@ Request Body:
   "completed": false
 }
 ```
+
+### 2. Update a Note
+
+**PUT** `/api/notes/:id`
+
+Request Body:
+
+```json
+{
+  "title": "Learn Backend Development",
+  "content": "Practice Express, MongoDB and REST APIs",
+  "completed": true
+}
+```
+
+### 3. Delete a Note
+
+**DELETE** `/api/notes/:id`
+
+Replace `:id` with the ID of the note you want to delete.
 
 ## Search, Filtering, Sorting and Pagination
 
@@ -140,57 +164,64 @@ GET /api/notes?page=1&limit=5
 GET /api/notes?page=2&limit=5
 ```
 
+The maximum allowed limit is 100 notes per request.
+
 ### Combine Query Parameters
 
 Search, filter, sort, and paginate in a single request.
 
 ```http
-GET /api/notes?search=Java&completed=false&sort=latest&page=1&limit=2
+GET /api/notes?search=Java&completed=false&sort=latest&page=1&limit=5
 ```
 
 ## Validation and Error Handling
 
 The API includes validation and error handling for common situations:
 
-- Missing title or content
-- Invalid note ID
-- Note not found
+- Missing or invalid title and content
+- Invalid completion status
+- Invalid note IDs
+- Notes that do not exist
 - Invalid pagination parameters
 - Invalid completion filter
 - Invalid sorting option
-- Search query exceeding the allowed length
+- Search query exceeding 100 characters
+- Pagination limit exceeding 100
 - Database and server errors
+
+## HTTP Status Codes
+
+| Status Code | Meaning |
+|---|---|
+| 200 | Request successful |
+| 201 | Note created successfully |
+| 400 | Invalid request or input |
+| 404 | Note not found |
+| 500 | Internal server error |
 
 ## Project Structure
 
 ```text
-
 notes-tast-api/
 │
 ├── models/
 │   └── Note.js
 │
 ├── postman/
-│   ├── collections/
-│   ├── documents/
-│   ├── environments/
-│   ├── flows/
-│   ├── globals/
-│   ├── mocks/
-│   └── specs/
+│   └── collections/
 │
-├── .env
 ├── .gitignore
 ├── package.json
 ├── package-lock.json
 ├── server.js
 └── README.md
-
 ```
+
+The `.env` file is kept locally and excluded from version control.
 
 ## API Testing
 
-All API endpoints were tested using **Postman**.
+All API endpoints were tested using Postman.
 
 The Postman collection includes requests for:
 
@@ -204,5 +235,6 @@ The Postman collection includes requests for:
 ## Future Improvements
 
 - Add user authentication and authorization
-- Add user-specific notes
-- Deploy the API to a cloud platform
+- Implement user-specific notes
+- Add automated API testing
+- Improve API documentation
